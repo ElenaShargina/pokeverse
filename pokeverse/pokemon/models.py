@@ -381,7 +381,7 @@ class Import:
 
         logging.basicConfig(handlers=(logging.StreamHandler(),), level=logging.INFO)
         res = requests.get(cls.url_prefix_species + '?limit=1000&offset=0').json()
-        logging.info(f"Начинаем импорт. В сети найдено видов покемонов: {len(res['results'])}")
+        logging.info(f"Начинаем импорт. В сети найдено типов покемонов: {len(res['results'])}")
         for s in res['results']:
             _import_species_from_url(s['url'])
 
@@ -406,4 +406,6 @@ class Import:
         # добавляем типы ко всем покемонам
         cls._add_types_to_all_pokemons()
         # добавляем картинки ко всем типам покемонов
-        cls._add_types_to_all_pokemons()
+        cls._add_images_to_all_types()
+        # добавляем виды ко всем покемонов
+        cls._import_all_species()
