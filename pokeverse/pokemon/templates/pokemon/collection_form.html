@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Editing my collection of Pokemons{% endblock %}
+{% block header %}Editing my collection of Pokemons{% endblock %}
+{% block content %}
+{{ object.name }}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

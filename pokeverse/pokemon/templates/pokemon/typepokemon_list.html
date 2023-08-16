@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Список типов{% endblock %}
+{% block header %}Список типов{% endblock %}
+{% block content %}
+<div class="ability-list">
+    <div class="clear"></div>
+
+{% for t in object_list %}
+    {% include 'base_type_square.html' %}
+{% endfor %}
+
+</div>
+{% endblock %}

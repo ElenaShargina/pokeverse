@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}Покемоны{% endblock %}
+
+{% block title %}Покемоны {% if initial_select_type %}({{initial_select_type}}){% endif %}{% endblock %}
+
+{% block content%}
+
+{% for p in object_list %}
+{% include 'base_pokemon_square.html' %}
+
+{% empty %}
+    No pokemons yet >.<
+{% endfor %}
+
+{% endblock %}

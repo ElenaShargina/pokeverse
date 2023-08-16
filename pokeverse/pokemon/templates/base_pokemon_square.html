@@ -1,0 +1,22 @@
+{% load static %}
+<div class="icon-item">
+              <a href="{% url 'pokemons_detail' p.id %}"><h3 class="icon-title">{{p.name}}</h3></a>
+              <!-- <img class="badge" src="{% static 'images/badge-new.png' %}" alt="" /> -->
+              <div class="icon-top"></div>
+              <div class="icon-middle">
+                <div class="icon-image"><a href="{% url 'pokemons_detail' p.id %}">
+
+                    {% if p.image_big %}
+                    <img src="{{p.image_big.url}}" alt="" style="height:200px"/>
+                    {% endif %}
+
+                </a></div>
+              </div>
+              <div class="icon-bottom"></div>
+              <div class="icon-description">
+                <p>Действия:</p>
+                <ul>
+                  <li><a href="#">Добавить в коллекцию</a></li>>
+                </ul>
+              </div>
+            </div>

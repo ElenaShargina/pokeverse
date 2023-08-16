@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Список видов покемонов{% endblock %}
+{% block header %}Список видов покемонов{% endblock %}
+{% block content %}
+<div class="ability-list">
+    <div class="clear"></div>
+<ol>
+{% for a in object_list %}
+<li>
+    <a href="{% url 'species_detail' a.name %}">{{a.name}}</a> -
+    {{a.pokemons.all.count}}
+</li>
+{% endfor %}
+</ol>
+</div>
+{% endblock %}

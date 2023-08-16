@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Покемон {{object.name|title}}{% endblock %}
+{% block header %}{{object.name|title}}{% endblock %}
+{% block back_to_list %}<a href="{% url 'pokemons_index' %}">К списку покемонов</a>{% endblock %}
+{% block content %}
+<div class="single-description">
+<div class="single-image-box">
+  <div class="single-image-left"></div>
+  <div class="single-image"> <a href="#"> <img src="{{object.image_big.url}}" alt="" height="200" /> </a> </div>
+  <div class="single-image-right"></div>
+</div>
+<div class="single-write">
+  <h3>Punchy Tagline For The Set</h3>
+    <!-- ХАРАКТЕРИСТИКИ -->
+    <p><strong>Характеристики : </strong></p>
+    <table>
+    {% for key,value in chars_dict.items %}
+        <tr>
+            <td>{{key}}</td>
+            <td>{{value}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <!-- СПОСОБНОСТИ -->
+    {% if object.abilities.all %}
+        <br />
+    <p><strong>Способности : </strong></p>
+  <ul>
+  {% for a in object.abilities.all %}
+    <li><a href="{% url 'abilities_detail' a.id %}">{{ a.name }}</a></li>
+    {% endfor %}
+  </ul>
+    {% endif %}
+    <!-- ТИПЫ -->
+        {% if object.types.all %}
+        <br />
+    <p><strong>Типы : </strong></p>
+    <p>
+  {% for t in object.types.all %}
+    <a href="{% url 'types_detail' t.name %}"><img src="{{t.image.url}}" alt="{{ t.name }}" style="height:50px"/></a>
+    {% endfor %}
+    </p>
+    {% endif %}
+    <!--  Другие изображения -->
+    {% if object.image_small_front or object.image_small_back %}
+    <br />
+    <p><strong>Изображения : </strong></p>
+    <table><tr>
+        {% if object.image_small_front %}
+        <td><a href="{{object.image_small_front.url}}" target="_blank"><img src="{{object.image_small_front.url}}" width="100" height = "100"/></a></td>
+        {% endif %}
+
+        {% if object.image_small_back %}
+        <td><a href="{{object.image_small_back.url}}" target="_blank"><img src="{{object.image_small_back.url}}" width="100" height = "100"/></a></td>
+        {% endif %}
+    </tr></table>
+    {% endif %}
+</div>
+</div>
+
+<div class="clear"></div>
+{% if pokemons %}
+<h2 class="page-title">Покемоны того же вида (<a href="{%url 'species_detail' object.species.name%}">{{object.species.name}}</a>):</h2>
+<hr class="pagination-break" />
+<div class="icon-list clearfix">
+    {% for p in pokemons %}
+    {% include 'base_pokemon_square.html' %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

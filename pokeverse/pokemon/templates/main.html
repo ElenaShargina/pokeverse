@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница PokeVerse{% endblock %}
+
+{% block header %}Главная страница PokeVerse{% endblock %}
+{% block content %}
+{% load static %}
+<div class="icon-item">
+              <a href="{% url 'pokemons_index' %}"><h3 class="icon-title">Все покемоны</h3></a>
+              <div class="icon-top"></div>
+              <div class="icon-middle">
+                <div class="icon-image"><a href="{% url 'pokemons_index' %}">
+
+                    <img src="{% static 'banners/pokemons.jpg' %}" alt="все покемоны" style="height:200px; width:180px"/>
+
+                </a></div>
+              </div>
+              <div class="icon-bottom"></div>
+            </div>
+
+<div class="icon-item">
+              <a href="{% url 'abilities_index' %}"><h3 class="icon-title">Способности покемонов</h3></a>
+              <div class="icon-top"></div>
+              <div class="icon-middle">
+                <div class="icon-image"><a href="{% url 'abilities_index' %}">
+                    <img src="{% static 'banners/abilities.png' %}" alt="" style="height:200px; width:180px"/>
+              </a></div>
+              </div>
+              <div class="icon-bottom"></div>
+            </div>
+
+<div class="icon-item">
+              <a href="{% url 'types_index' %}"><h3 class="icon-title">Типы покемонов</h3></a>
+              <div class="icon-top"></div>
+              <div class="icon-middle">
+                <div class="icon-image"><a href="{% url 'types_index' %}">
+
+                    <img src="{% static 'banners/types.png' %}" alt="типы покемонов" style="height:200px"/>
+
+                </a></div>
+              </div>
+              <div class="icon-bottom"></div>
+            </div>
+
+{% endblock %}

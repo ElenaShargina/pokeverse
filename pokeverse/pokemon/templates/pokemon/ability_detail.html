@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Способность {{object.name|title}}{% endblock %}
+{% block header %}{{object.name|title}}{% endblock %}
+{% block back_to_list %}<a href="{% url 'abilities_index' %}">К списку способностей</a>{% endblock %}
+{% block content %}
+<div class="single-description">
+    <div class="single-write">
+      <p>{{ object.effect_entry }}</p>
+    </div>
+</div>
+<div class="clear"></div>
+<h2 class="page-title">Связанные покемоны:</h2>
+<hr class="pagination-break" />
+<div class="icon-list clearfix">
+    {% for p in pokemons %}
+    {% include 'base_pokemon_square.html' %}
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Вид {{object.name|title}}{% endblock %}
+{% block header %}{{object.name|title}}{% endblock %}
+{% block back_to_list %}<a href="{% url 'species_index' %}">К списку видов</a>{% endblock %}
+{% block content %}
+<div class="single-description">
+    <div class="single-write">
+      <p>{{ object.text }}</p>
+    </div>
+</div>
+<div class="clear"></div>
+<h2 class="page-title">Связанные покемоны:</h2>
+<hr class="pagination-break" />
+<div class="icon-list clearfix">
+    {% for p in pokemons %}
+    {% include 'base_pokemon_square.html' %}
+    {% endfor %}
+</div>
+{% endblock %}

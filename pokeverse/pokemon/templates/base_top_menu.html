@@ -1,0 +1,8 @@
+{% load active_item %}
+<ul id="navigation">
+  <li><a class="round {% active 'main_index' False %}" href="{% url 'main_index' %}"><span>главная</span></a></li>
+  <li><a class="round {% active 'pokemons_index'  %}" href="{% url 'pokemons_index' %}"><span>покемоны</span></a></li>
+  <li><a class="round {% active 'abilities_index'  %}" href="{% url 'abilities_index' %}"><span>способности</span></a></li>
+  <li><a class="round {% active 'types_index'  %}" href="{% url 'types_index' %}"><span>типы</span></a></li>
+  <li><a class="round {% active 'collection_detail'  %}" href="{% url 'collection_detail' %}"><span>моя коллекция</span></a></li>
+</ul>

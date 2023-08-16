@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Список способностей{% endblock %}
+{% block header %}Список способностей{% endblock %}
+{% block content %}
+<div class="ability-list">
+    <div class="clear"></div>
+<ol>
+{% for a in object_list %}
+<li>
+    <a href="{% url 'abilities_detail' a.id %}">{{a.name}}</a> -
+    {{a.effect_entry_short}}
+</li>
+{% endfor %}
+</ol>
+</div>
+{% endblock %}

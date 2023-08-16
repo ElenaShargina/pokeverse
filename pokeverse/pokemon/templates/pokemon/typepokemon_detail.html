@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Тип {{object.name|title}}{% endblock %}
+{% block header %}{{object.name|title}}{% endblock %}
+{% block back_to_list %}<a href="{% url 'types_index' %}">К списку типов</a>{% endblock %}
+
+{% block content %}
+    {% for p in pokemons %}
+    {% include 'base_pokemon_square.html' %}
+    {% endfor %}
+{% endblock %}

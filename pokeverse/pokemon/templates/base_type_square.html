@@ -1,0 +1,16 @@
+{% load static %}
+<div class="icon-item">
+              <a href="{% url 'types_detail' t.name %}"><h3 class="icon-title">{{t.name}}</h3></a>
+              <!-- <img class="badge" src="{% static 'images/badge-new.png' %}" alt="" /> -->
+              <div class="icon-top"></div>
+              <div class="icon-middle">
+                <div class="icon-image"><a href="{% url 'types_detail' t.name %}">
+
+                    {% if t.image %}
+                    <img src="{{t.image.url}}" alt="" style="height:200px"/>
+                    {% endif %}
+
+                </a></div>
+              </div>
+              <div class="icon-bottom"></div>
+            </div>
