@@ -19,10 +19,13 @@ from django.conf import settings
 from pokemon import views
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # index page
     path('', views.MainIndex.as_view(), name='main_index'),
+    # ex: /search/
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
     # ex: /pokemons/
     path('pokemons/', views.PokemonIndexView.as_view(), name='pokemons_index'),
     # ex: /pokemons/123/

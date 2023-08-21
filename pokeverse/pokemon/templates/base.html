@@ -22,12 +22,7 @@
           </div>
           <h1 id="logo"><a href="{% url 'pokemons_index' %}">Pokeverse</a></h1>
           {% include 'base_top_menu.html' %}
-          <div id="search">
-            <form action="#" method="get">
-              <input type="text" value="Search" id="s" name="s" onfocus="if (this.value == 'Search') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search';}" />
-              <input type="submit" id="searchsubmit" value="Search" />
-            </form>
-          </div>
+          {% include 'base_search_form.html' %}
         </div>
       </div>
       <div class="big-block grid">

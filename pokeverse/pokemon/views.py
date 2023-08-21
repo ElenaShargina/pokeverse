@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import Pokemon, Ability, Collection, TypePokemon, SpeciesPokemon
 from django.views import generic
 from django.views.generic.edit import UpdateView
+from django.db.models import Q
 
 
 class MainIndex(generic.View):
@@ -13,6 +14,23 @@ class MainIndex(generic.View):
     def get(self, request):
         return render(request, self.template_name, {})
 
+class SearchResultsView(generic.ListView):
+    model = Pokemon
+    template_name = 'search_results.html'
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        pokemon_list = Pokemon.objects.filter(
+            Q(name__icontains=query)
+        )
+        ability_list = Ability.objects.filter(
+            Q(name__icontains=query)
+        )
+        types_list = TypePokemon.objects.filter(
+            Q(name__icontains=query)
+        )
+        print(pokemon_list,ability_list,types_list)
+        return {'query':query,'pokemon_list':pokemon_list, 'ability_list':ability_list,'types_list':types_list}
 
 class PokemonIndexView(generic.ListView):
     model = Pokemon

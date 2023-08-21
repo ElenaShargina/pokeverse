@@ -1157,7 +1157,28 @@ img, div, a, input {
 	margin-right:25px;
 }
 
-div.ability-list{
+div#ability-list{
     padding-left:40px;
     padding-right:40px;
+    font-size:16px;
+}
+div#ability_list li{
+    margin-left:40px;
+}
+
+div#search-results-list ul {
+    padding-top: 20px;
+    padding-bottom:20px;
+}
+
+div#search-results-list ul li{
+    font-size: 20px;
+    margin-left:30px;
+}
+div#search-results-list h3{
+    padding-top: 20px;
+    font-weight:bold;
+}
+div#search-results-list p{
+    font-size: 20px;
 }
