@@ -6,7 +6,7 @@
 <div class="single-description">
 <div class="single-image-box">
   <div class="single-image-left"></div>
-  <div class="single-image"> <a href="#"> <img src="{{object.image_big.url}}" alt="" height="200" /> </a> </div>
+  <div class="single-image"> <a href="#"> {% if object.image_big %}<img src="{{object.image_big.url}}" alt="" height="200" />{% endif %} </a> </div>
   <div class="single-image-right"></div>
 </div>
 <div class="single-write">

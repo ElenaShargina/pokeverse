@@ -35,7 +35,7 @@ class SearchResultsView(generic.ListView):
 class PokemonIndexView(generic.ListView):
     model = Pokemon
     paginate_by = 60
-
+    ordering = ['name']
 
 class PokemonDetailView(generic.DetailView):
     model = Pokemon
@@ -49,8 +49,8 @@ class PokemonDetailView(generic.DetailView):
             'Рост': context['object'].height,
             'Базовый опыт': context['object'].base_experience,
         }
-        context['pokemons'] = context['object'].species.pokemons.exclude(pokeapi_id=context['object'].pokeapi_id)
-
+        if context['object'].species!=None:
+            context['pokemons'] = context['object'].species.pokemons.exclude(pokeapi_id=context['object'].pokeapi_id)
         return context
 
 
