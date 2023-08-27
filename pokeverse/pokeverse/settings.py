@@ -75,8 +75,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             # 'debug': False
-        },
-    },
+        },    },
 ]
 
 WSGI_APPLICATION = 'pokeverse.wsgi.application'
