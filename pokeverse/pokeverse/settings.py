@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pokemon.apps.PokemonConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'django.forms'
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # 'debug': False
         },
     },
 ]
@@ -142,3 +144,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+# Custom form renderer
+from django.forms.renderers import TemplatesSetting
+
+class CustomFormRenderer(TemplatesSetting):
+    form_template_name = "base_form.html"
+
+LOGIN_REDIRECT_URL = '/users/profile'
+LOGOUT_REDIRECT_URL = '/'
+
+FORM_RENDERER = "pokeverse.settings.CustomFormRenderer"

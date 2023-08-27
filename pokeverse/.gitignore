@@ -2,5 +2,7 @@ db.sqlite3
 /media
 ~.pyc
 __pycache__
+.idea/*
 .idea
 .env
+pokeverse/static/

@@ -1,5 +1,5 @@
 * {
-	padding:0;
+	/* padding:0; */
 	margin:0;
 }
 html, body {
@@ -1181,4 +1181,21 @@ div#search-results-list h3{
 }
 div#search-results-list p{
     font-size: 20px;
+}
+
+button{
+	display:block;
+	width:130px;
+	border:none;
+	height:27px;
+	cursor:pointer;
+	text-transform:uppercase;
+	font-size:0.9em;
+	color: #fff;
+    background: url(images/round-button.png) no-repeat top left;
+}
+div.errors{
+    display:block;
+    color:red;
+    padding-bottom:10px;
 }

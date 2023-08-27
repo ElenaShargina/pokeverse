@@ -1,0 +1,16 @@
+{% if form.errors %}
+<div class="errors">
+    {% for field,errors in form.errors.items %}
+        {{errors}}
+    {% endfor %}
+</div>
+{% endif %}
+{% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        <div class="in">
+        {{ field.label_tag }} {{ field }}
+        </div>
+        <div class="clear"></div>
+    </div>
+{% endfor %}

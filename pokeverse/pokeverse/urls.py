@@ -42,6 +42,9 @@ urlpatterns = [
     path('species/', views.SpeciesPokemonIndexView.as_view(), name='species_index'),
     # ex: /species/bulbasaur/
     path('species/<str:pk>/', views.SpeciesPokemonDetailView.as_view(), name='species_detail'),
+    # authorizing for users
+    # path("users/", include("django.contrib.auth.urls")),
+    path("users/", include("users.urls")),
     # ex: /collection
     path('collection/', views.CollectionDetailView.as_view(), name='collection_detail'),
     # ex: /collection/edit

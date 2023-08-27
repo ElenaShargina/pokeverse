@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group
 from django.test import TestCase
 from users.models import CustomUser
+from pokemon.models import Pokemon
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 
@@ -26,6 +27,8 @@ class CustomUserTest(TestCase):
         test_user_1.groups.add(collector_group)
         test_user_1.save()
         tu = CustomUser.objects.get(username='test_user_1')
+        # @TODO вставить импорт тестовых покемонов
+        p = Pokemon.objects.get_or_create(name='Pikachu')
         # print(tu.groups.values_list('name', flat=True))
 
 
@@ -46,3 +49,7 @@ class CustomUserTest(TestCase):
                                   )
         resp = self.client.get(reverse('pokemons_index'))
         self.assertTemplateUsed(resp, 'base_pokemon_square_add_box.html')
+
+    def testPokemonListBoxUnAuthorized(self):
+        resp = self.client.get(reverse('pokemons_index'))
+        self.assertTemplateNotUsed(resp, 'base_pokemon_square_add_box.html')

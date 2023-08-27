@@ -1,6 +1,5 @@
 {% load static %}
 <div id="cartstatus">
-    {user.is_collector}
     {% if user.is_authenticated %}
             {% include 'top_menu_user_authorized.html' %}
     {% else %}
