@@ -12,11 +12,9 @@
 
                 </a></div>
               </div>
-              <div class="icon-bottom"></div>
-              <div class="icon-description">
-                <p>Действия:</p>
-                <ul>
-                  <li><a href="#">Добавить в коллекцию</a></li>>
-                </ul>
-              </div>
+    <div class="icon-bottom"></div>
+<!--    @TODO вставить проверку на принадежность к группе collectors -->
+{% if user.is_authenticated  %}
+        {% include 'base_pokemon_square_add_box.html' %}
+    {% endif %}
             </div>

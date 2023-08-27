@@ -17,9 +17,7 @@
     <div id="full" class="container clearfix">
       <div id="head">
         <div class="grid">
-          <div id="cartstatus">
-            <p> <a href="#">Мой профиль</a> | <a href="#">Выйти</a> </p>
-          </div>
+          {% include 'top_user_menu.html' %}
           <h1 id="logo"><a href="{% url 'pokemons_index' %}">Pokeverse</a></h1>
           {% include 'base_top_menu.html' %}
           {% include 'base_search_form.html' %}

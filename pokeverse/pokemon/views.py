@@ -8,10 +8,12 @@ from django.views.generic.edit import UpdateView
 from django.db.models import Q
 
 
+
 class MainIndex(generic.View):
     template_name = 'main.html'
 
     def get(self, request):
+        print(self.request.user)
         return render(request, self.template_name, {})
 
 class SearchResultsView(generic.ListView):
