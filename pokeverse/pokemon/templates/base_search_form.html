@@ -1,0 +1,6 @@
+          <div id="search">
+              <form action="{% url 'search_results' %}" method="get">
+                  <input name="q" type="text" value="Поиск" id="s" name="s" onfocus="if (this.value == 'Поиск') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Поиск';}" >
+                  <input type="submit" id="searchsubmit" value="Search" />
+            </form>
+          </div>
