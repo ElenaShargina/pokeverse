@@ -143,8 +143,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGIN_URL = 'users:login'
+LOGOUT_URL = 'users:logout'
 
 # Custom form renderer
 from django.forms.renderers import TemplatesSetting
@@ -152,6 +152,7 @@ from django.forms.renderers import TemplatesSetting
 class CustomFormRenderer(TemplatesSetting):
     form_template_name = "base_form.html"
 
+# @todo нужно ли перенаправлять на страницу профиля?
 LOGIN_REDIRECT_URL = '/users/profile'
 LOGOUT_REDIRECT_URL = '/'
 

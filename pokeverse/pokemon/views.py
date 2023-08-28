@@ -6,8 +6,7 @@ from .models import Pokemon, Ability, Collection, TypePokemon, SpeciesPokemon
 from django.views import generic
 from django.views.generic.edit import UpdateView
 from django.db.models import Q
-
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class MainIndex(generic.View):
     template_name = 'main.html'
@@ -107,13 +106,15 @@ class TypePokemonDetailView(generic.DetailView):
 # https://docs.djangoproject.com/en/4.1/topics/forms/#using-a-form-in-a-view
 # https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
 
-class CollectionDetailView(generic.DetailView):
+class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
     model = Collection
 
     # slug_field = 'user_id'
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Collection, user_id=self.request.user.id)
+        print('HERE')
+        return None
+        # return get_object_or_404(Collection, user_id=self.request.user.id)
 
 
 # https://docs.djangoproject.com/en/4.1/topics/forms/modelforms/#django.forms.ModelForm

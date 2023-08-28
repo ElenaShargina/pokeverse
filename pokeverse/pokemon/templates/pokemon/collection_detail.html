@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}My collection of Pokemons{% endblock %}
-{% block header %}My collection of Pokemons{% endblock %}
+{% block title %}Моя коллекция покемонов{% endblock %}
+{% block header %}Моя коллекция покемонов{% endblock %}
 {% block content %}
 {{ object.name }}
+<div class="text_content">
+<div class="errors">Функциональность пока не реализована >,<</div>
 <ol>
 {% for p in object.pokemons.all %}
 <li><a href="{% url 'pokemons_detail' p.id %}">{{p.name|title}}</a></li>
 {% empty %}
-    <li>No pokemons yet.</li>
+    No pokemons yet.
     {% endfor %}
 </ol>
-<a href = "{% url 'collection_edit' %}">Edit my collection</a>
+<!-- <a href = "{% url 'collection_edit' %}">Edit my collection</a> -->
+</div>
 {% endblock %}

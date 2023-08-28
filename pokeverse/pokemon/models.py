@@ -50,12 +50,12 @@ class Pokemon(models.Model):
     image_small_back = models.ImageField(upload_to='pokemon_images_small_back/', null=True, blank=True)
 
     def delete(self, *args, **kwargs):
-        if self.image_big != None:
-            os.remove(os.path.join(settings.MEDIA_ROOT, self.image_big.name))
-        if self.image_small_front != None:
-            os.remove(os.path.join(settings.MEDIA_ROOT, self.image_small_front.name))
-        if self.image_small_back != None:
-            os.remove(os.path.join(settings.MEDIA_ROOT, self.image_small_back.name))
+        # if self.image_big != None:
+        #     os.remove(os.path.join(settings.MEDIA_ROOT, self.image_big.name))
+        # if self.image_small_front != None:
+        #     os.remove(os.path.join(settings.MEDIA_ROOT, self.image_small_front.name))
+        # if self.image_small_back != None:
+        #     os.remove(os.path.join(settings.MEDIA_ROOT, self.image_small_back.name))
         super().delete(*args, **kwargs)
 
     def add_images(self, images_dir, url_prefix_pokemon):
@@ -185,6 +185,12 @@ class Import:
         all_abilities = Ability.objects.all()
         for a in all_abilities:
             a.delete()
+        all_typepokemon = TypePokemon.objects.all()
+        for a in all_typepokemon:
+            a.delete()
+        all_speciespokemon = SpeciesPokemon.objects.all()
+        for a in all_speciespokemon:
+            a.delete()
 
     @classmethod
     def _import_pokemons_from_urls(cls, urls: list) -> None:
@@ -194,8 +200,11 @@ class Import:
         :type urls: list
         :return: None
         """
+        i = 0
+        n = len(urls)
         for url in urls:
-            logging.info(f'Импортируем из {url}')
+            logging.info(f'[{i}/{n}]Импортируем из {url}')
+            i+=1
             # запрашиваем информацию у сервиса
             result = requests.get(url).json()
             # обозначаем поля, которые будем сохранять у себя
@@ -215,7 +224,11 @@ class Import:
         Для экономии времени картинки берутся из папки с заранее скаченными картинками.
         """
         all_pokemons = Pokemon.objects.all()
+        i = 0
+        n = len(all_pokemons)
         for p in all_pokemons:
+            logging.info(f'[{i}/{n}]Добавляем картинки к покемону.')
+            i+=1
             p.add_images(cls.sample_sprites_dir, cls.url_prefix_pokemon)
 
     @classmethod
@@ -297,7 +310,11 @@ class Import:
         Добавляет способности ко всем покемонам
         """
         all_pokemons = Pokemon.objects.all()
+        i = 0
+        n = len(all_pokemons)
         for p in all_pokemons:
+            logging.info(f'[{i}/{n}] Добавляем способность к покемону {p.name}')
+            i+=1
             cls._add_abilities(p)
 
     @classmethod
@@ -324,7 +341,11 @@ class Import:
         Добавляет типы ко всем покемонам
         """
         all_pokemons = Pokemon.objects.all()
+        i = 0
+        n = len(all_pokemons)
         for p in all_pokemons:
+            logging.info(f'[{i}/{n}] Добавляем тип к покемону {p.name}')
+            i+=1
             cls._add_types(p)
 
     @classmethod
@@ -340,7 +361,10 @@ class Import:
         Добавляет картинки ко всем типам покемонов, берет их из предзагруженной папки sample_types_dir
         """
         types = TypePokemon.objects.all()
+        i = 0
+        n = len(types)
         for t in types:
+            logging.info(f'[{i}/{n}] Добавляем картинку к типу {t.name}')
             image_file = os.path.join(settings.MEDIA_ROOT, cls.sample_types_dir, t.name.lower() + '.png')
             try:
                 f = open(image_file, mode='rb')
@@ -381,8 +405,11 @@ class Import:
 
         logging.basicConfig(handlers=(logging.StreamHandler(),), level=logging.INFO)
         res = requests.get(cls.url_prefix_species + '?limit=1000&offset=0').json()
-        logging.info(f"Начинаем импорт. В сети найдено типов покемонов: {len(res['results'])}")
+        logging.info(f"Начинаем импорт. В сети найдено семейств покемонов: {len(res['results'])}")
+        i = 0
+        n = len(res['results'])
         for s in res['results']:
+            logging.info(f'[{i}/{n}] Добавляем семейство покемонов')
             _import_species_from_url(s['url'])
 
 
@@ -407,5 +434,5 @@ class Import:
         cls._add_types_to_all_pokemons()
         # добавляем картинки ко всем типам покемонов
         cls._add_images_to_all_types()
-        # добавляем виды ко всем покемонов
+        # добавляем семейства ко всем покемонов
         cls._import_all_species()

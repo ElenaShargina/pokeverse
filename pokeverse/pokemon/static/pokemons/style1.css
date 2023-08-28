@@ -1157,12 +1157,12 @@ img, div, a, input {
 	margin-right:25px;
 }
 
-div#ability-list{
+div.text_content{
     padding-left:40px;
     padding-right:40px;
     font-size:16px;
 }
-div#ability_list li{
+div.text_content li{
     margin-left:40px;
 }
 
