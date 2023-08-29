@@ -12,7 +12,6 @@ class MainIndex(generic.View):
     template_name = 'main.html'
 
     def get(self, request):
-        print(self.request.user)
         return render(request, self.template_name, {})
 
 class SearchResultsView(generic.ListView):
@@ -109,12 +108,8 @@ class TypePokemonDetailView(generic.DetailView):
 class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
     model = Collection
 
-    # slug_field = 'user_id'
-
     def get_object(self, queryset=None):
-        print('HERE')
         return None
-        # return get_object_or_404(Collection, user_id=self.request.user.id)
 
 
 # https://docs.djangoproject.com/en/4.1/topics/forms/modelforms/#django.forms.ModelForm

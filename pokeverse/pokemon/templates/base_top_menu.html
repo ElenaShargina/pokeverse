@@ -6,6 +6,6 @@
   <li><a class="round {% active 'types_index'  %}" href="{% url 'types_index' %}"><span>типы</span></a></li>
   {# @TODO добавить проверку на принадлежность к группе collectors #}
   {% if user.is_authenticated %}
-  <li><a class="round {% active 'collection_detail'  %}" href="{% url 'collection_detail' %}"><span>моя коллекция</span></a></li>
+  {% include 'base_top_menu_collection_item.html' %}
   {% endif %}
 </ul>
