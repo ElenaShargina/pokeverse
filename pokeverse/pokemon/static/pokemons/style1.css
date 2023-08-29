@@ -1166,6 +1166,10 @@ div.text_content li{
     margin-left:40px;
 }
 
+div#ability-list li a{
+    text-transform:capitalize;
+}
+
 div#search-results-list ul {
     padding-top: 20px;
     padding-bottom:20px;
