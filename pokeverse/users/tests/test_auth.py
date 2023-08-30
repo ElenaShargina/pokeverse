@@ -123,3 +123,62 @@ class CustomUserTest(TestCase):
         self.assertEqual(resp.status_code, 302)
         # проверяем, что пользователь больше не авторизован
         self.assertEqual(auth.get_user(self.client).is_authenticated,False)
+
+    def testProfilePageUnathorizedUser(self):
+        """
+проверка, что неавторизованным пользователям не показывается страница профиля
+        """
+        resp = self.client.get(reverse('users:profile'))
+        # проверяем, что перенаправлены
+        self.assertEqual(resp.status_code, 302)
+        expected_redirection = reverse('users:login') + '?next=' + reverse('users:profile')
+        self.assertRedirects(resp, expected_redirection)
+
+    def testRegisterNewUser(self):
+        """
+проверка регистрации нового пользователя - перенаправление и залоггированность нового пользователя
+штатные функции джанго не проверяем
+        """
+        resp = self.client.get(reverse('users:register'))
+        self.assertEqual(resp.status_code, 200)
+        sample_data = {
+            'username':'TestUser12345',
+            'email':'testuser@gmail.com',
+            'password1':'SamplePassword1233',
+            'password2':'SamplePassword1233'
+        }
+        resp = self.client.post(reverse('users:register'), data=sample_data, follow=True)
+        # проверяем, что произошло перенаправление
+        self.assertRedirects(resp, reverse('users:profile'))
+        # проверяем, что пользователь теперь залогинен
+        self.assertEqual(auth.get_user(self.client).is_authenticated, True)
+
+    def testRegisterPageNotSeenByAuthorizedUser(self):
+        """
+проверка, что авторизованным пользователям не показывается страница регистрации
+        """
+        # логинимся как пользователь
+        self.client.login(username=self.users_dict['test_user_1']['username'],
+                          password=self.users_dict['test_user_1']['password']
+                          )
+        resp = self.client.get(reverse('users:register'))
+        # проверяем, что произошла переадресация на главную страницу
+        self.assertEqual(resp.status_code, 302)
+        expected_redirection = reverse('main_index')
+        self.assertRedirects(resp, expected_redirection)
+
+    def testChangePassword(self):
+        """
+проверка, что пользователь может сменить пароль. После успешной смены он переадресуется на страницу профиля
+        """
+        # логинимся как пользователь
+        self.client.login(username=self.users_dict['test_user_1']['username'],
+                          password=self.users_dict['test_user_1']['password']
+                          )
+        sample_data = {
+            'old_password':self.users_dict['test_user_1']['password'],
+            'new_password1':'NewPassword123',
+            'new_password2': 'NewPassword123',
+        }
+        resp = self.client.post(reverse('users:change_password'), data=sample_data, follow=True)
+        self.assertRedirects(resp, reverse('users:profile'))

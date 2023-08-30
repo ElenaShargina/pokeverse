@@ -7,5 +7,9 @@
 <b>Username:</b> {{current_user.username}}
 <div class="clear"></div>
 <b>E-mail:</b> {{current_user.email}}
+<div class="clear"></div>
+<br />
+<a href="{% url 'users:change_password' %}">Сменить пароль</a>
+
 </div>
 {% endblock %}

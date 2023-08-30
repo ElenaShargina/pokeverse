@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from pokemon import views
 from django.conf.urls.static import static
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView, PasswordResetDoneView
 
 
 urlpatterns = [
@@ -49,5 +50,12 @@ urlpatterns = [
     path('collection/', views.CollectionDetailView.as_view(), name='collection_detail'),
     # ex: /collection/edit
     path('collection/edit', views.CollectionEditView.as_view(), name = 'collection_edit'),
+
+    # для использования штатных представлений джанго, импортируем эти пути в корневое пространство имён
+    path('password-reset/', PasswordResetView.as_view(template_name='users/reset_password.html'),name='password_reset'),
+    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='users/reset_password.html'),name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='users/reset_password.html'),name='password_reset_confirm'),
+    path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='users/reset_password.html'),name='password_reset_complete'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

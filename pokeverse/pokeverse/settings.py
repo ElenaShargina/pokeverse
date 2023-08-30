@@ -157,3 +157,5 @@ LOGIN_REDIRECT_URL = '/users/profile'
 LOGOUT_REDIRECT_URL = '/'
 
 FORM_RENDERER = "pokeverse.settings.CustomFormRenderer"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
