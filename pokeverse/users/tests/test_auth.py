@@ -1,10 +1,13 @@
+import os
+
 from django.contrib.auth.models import Group
 from django.test import TestCase
 from users.models import CustomUser
-from pokemon.models import Pokemon
+from pokemon.models import Pokemon, SpeciesPokemon, TypePokemon, Ability, Pokemon
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from django.contrib import auth
+from django.core import serializers
 
 class CustomUserTest(TestCase):
     # Данные для создания тестовых пользователей
@@ -19,6 +22,12 @@ class CustomUserTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        def import_from_xml(filename):
+            file_xml = open(
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sample/'+filename), 'r')
+            for obj in serializers.deserialize("xml", file_xml):
+                obj.save()
+
         test_user_1 = CustomUser.objects.create_user(cls.users_dict['test_user_1']['username'],
                                        cls.users_dict['test_user_1']['email'],
                                        cls.users_dict['test_user_1']['password'],
@@ -27,8 +36,17 @@ class CustomUserTest(TestCase):
         test_user_1.groups.add(collector_group)
         test_user_1.save()
         tu = CustomUser.objects.get(username='test_user_1')
-        # @TODO вставить импорт тестовых покемонов
-        p = Pokemon.objects.get_or_create(name='Pikachu')
+        for f in ['speciespokemon.xml', 'typepokemon.xml', 'ability.xml', 'pokemon.xml']:
+            import_from_xml(f)
+
+        # pokemons = Pokemon.objects.filter(types='grass')
+        # print(len(pokemons))
+        # pokemons = Pokemon.objects.filter(abilities='295')
+        # print(pokemons)
+        # pokemons = Pokemon.objects.filter(species='bulbasaur')
+        # print(pokemons)
+
+        # p = Pokemon.objects.get_or_create(name='Pikachu')
         # print(tu.groups.values_list('name', flat=True))
 
 
