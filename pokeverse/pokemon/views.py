@@ -35,6 +35,21 @@ class PokemonIndexView(generic.ListView):
     model = Pokemon
     paginate_by = 60
     ordering = ['name']
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        # если пользователь залогинен, накладываем информацию про его коллекцию
+        user = self.request.user
+        if user.is_authenticated:
+            user_collection = user.get_or_create_collection()[0].pokemons.all()
+            context['in_collection'] = {key:False for key in [p.id for p in context['object_list']] }
+            for p in context['object_list']:
+                if p in user_collection:
+                    context['in_collection'][p.id] = True
+        print(context)
+        return context
+
+
 
 class PokemonDetailView(generic.DetailView):
     model = Pokemon

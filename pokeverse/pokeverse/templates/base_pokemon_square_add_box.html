@@ -1,7 +1,11 @@
-
-              <!-- <div class="icon-description">
-                <p>Действия:</p>
+{% load lookup %}
+              <div class="icon-description">
                 <ul>
-                  <li><a href="#">Добавить в коллекцию</a></li>>
+                    {% if not in_collection|lookup:p.id %}
+                  <li><a href="#">Добавить в коллекцию</a></li>
+                    {% endif %}
+                    {% if in_collection|lookup:p.id %}
+                    <li><a href="#">Удалить из коллекции</a></li>
+                    {% endif %}
                 </ul>
-              </div> -->
+              </div>

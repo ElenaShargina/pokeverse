@@ -77,6 +77,7 @@ TEMPLATES = [
             # 'debug': False
             'libraries': {
                 'active_item': 'pokeverse.templatetags.active_item',
+                'lookup': 'pokeverse.templatetags.lookup',
 
             }
         },    },
