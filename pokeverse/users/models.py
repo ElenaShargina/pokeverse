@@ -17,6 +17,11 @@ class CustomUser(AbstractUser):
         else:
             return False
 
+    def get_or_create_collection(self):
+        print(self.id)
+        collection = Collection.objects.get_or_create(user_id=self)
+        return collection
+
 class Collection(models.Model):
     user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
