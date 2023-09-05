@@ -2,16 +2,13 @@
 {% block title %}Моя коллекция покемонов{% endblock %}
 {% block header %}Моя коллекция покемонов{% endblock %}
 {% block content %}
-{{ object.name }}
+
 <div class="text_content">
-<div class="errors">Функциональность пока не реализована >,<</div>
-<ol>
 {% for p in object.pokemons.all %}
-<li><a href="{% url 'pokemons_detail' p.id %}">{{p.name|title}}</a></li>
+    {% include 'base_pokemon_square.html' %}
 {% empty %}
     No pokemons yet.
     {% endfor %}
-</ol>
-<a href = "{% url 'users:collection_edit' %}">Edit my collection</a>
+<div class="clear"></div>
 </div>
 {% endblock %}

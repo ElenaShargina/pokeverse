@@ -29,7 +29,6 @@ class SearchResultsView(generic.ListView):
         types_list = TypePokemon.objects.filter(
             Q(name__icontains=query)
         )
-        print(pokemon_list,ability_list,types_list)
         return {'query':query,'pokemon_list':pokemon_list, 'ability_list':ability_list,'types_list':types_list}
 
 class PokemonIndexView(generic.ListView):

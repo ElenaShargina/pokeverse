@@ -59,24 +59,24 @@ class CustomUserChangePasswordView(generic.FormView):
         update_session_auth_hash(self.request, form.user)
         return super(CustomUserChangePasswordView, self).form_valid(form)
 
-# https://docs.djangoproject.com/en/4.1/topics/forms/#using-a-form-in-a-view
-# https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
-
 class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
     model = Collection
 
-    def get_object(self, queryset=None):
-        return None
+    # def get_queryset(self):
+    #     print(self.request.user.id)
+    #     return Collection.objects.get(user_id=self.request.user.id)
 
+    def get_object(self, queryset=None):
+        return Collection.objects.get(user_id=self.request.user.id)
 
 # https://docs.djangoproject.com/en/4.1/topics/forms/modelforms/#django.forms.ModelForm
 # https://docs.djangoproject.com/en/4.1/topics/forms/
 # https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
-class CollectionEditView(UpdateView):
-    model = Collection
-    fields = ['name', 'pokemons']
-
-    # https://stackoverflow.com/questions/7778143/whats-easiest-way-to-use-filter-horizontal-outside-of-the-admin-in-django
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Collection, user_id=self.request.user.id)
+# class CollectionEditView(UpdateView):
+#     model = Collection
+#     fields = ['name', 'pokemons']
+#
+#     # https://stackoverflow.com/questions/7778143/whats-easiest-way-to-use-filter-horizontal-outside-of-the-admin-in-django
+#
+#     def get_object(self, queryset=None):
+#         return get_object_or_404(Collection, user_id=self.request.user.id)

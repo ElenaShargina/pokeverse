@@ -2,25 +2,21 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from pokemon.models import Pokemon
-# from pokeverse.pokemon.models import Pokemon
 
 
 class CustomUser(AbstractUser):
-    # @todo вынести в settings
-    collectors_group_name = 'Collectors'
 
-    def is_collector(self):
-        print('HERE')
-        print(self.groups.values_list('name', flat=True))
-        if self.groups.filter(name=self.collectors_group_name).exists():
-            return True
-        else:
-            return False
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.get_or_create_collection()
 
     def get_or_create_collection(self):
-        print(self.id)
         collection = Collection.objects.get_or_create(user_id=self)
         return collection
+
+    def add_pokemon(self, p:Pokemon):
+        my_collection = self.get_or_create_collection()[0]
+        my_collection.add_pokemon(p)
 
 class Collection(models.Model):
     user_id = models.ForeignKey(
@@ -32,4 +28,7 @@ class Collection(models.Model):
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('collection_detail')
+        return reverse('users:collection_detail')
+
+    def add_pokemon(self, p):
+        self.pokemons.add(p)
