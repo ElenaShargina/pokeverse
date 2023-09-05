@@ -65,7 +65,7 @@ ROOT_URLCONF = 'pokeverse.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['pokeverse/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +75,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             # 'debug': False
+            'libraries': {
+                'active_item': 'pokeverse.templatetags.active_item',
+
+            }
         },    },
 ]
 
@@ -131,7 +135,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_DIRS = [
-    BASE_DIR / "pokemon/static/pokemons",
+    BASE_DIR / "pokeverse/static/pokemons",
 ]
 
 

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import Pokemon
 from .models import Ability
-from .models import Collection
 
 
 class PokemonModelAdmin(admin.ModelAdmin):
@@ -21,12 +20,6 @@ class PokemonModelAdmin(admin.ModelAdmin):
     class Meta:
          model = Pokemon
 
-class CollectionModelAdmin(admin.ModelAdmin):
-    list_display = ['user_id', 'name']
-    list_display_links = ['user_id']
-    # list_filter = ['pokeapi_id']
-    search_fields = ['user_id']
-
 class AbilityModelAdmin(admin.ModelAdmin):
 
     @admin.display(description='Name')
@@ -39,5 +32,4 @@ class AbilityModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Pokemon, PokemonModelAdmin)
-admin.site.register(Collection, CollectionModelAdmin)
 admin.site.register(Ability, AbilityModelAdmin)

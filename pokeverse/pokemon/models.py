@@ -142,20 +142,6 @@ class Pokemon(models.Model):
         if not self.image_big:
             add_image_big_from_pokeapi(images_postfixes['image_big'][0], images_postfixes['image_big'][1])
 
-
-class Collection(models.Model):
-    user_id = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
-    pokemons = models.ManyToManyField(Pokemon)
-    name = models.CharField(max_length=100, default='Моя коллекция')
-
-    def get_absolute_url(self):
-        from django.urls import reverse
-        return reverse('collection_detail')
-
-
 class Import:
     """
     Класс для импорта покемонов и способностей с pokeapi.

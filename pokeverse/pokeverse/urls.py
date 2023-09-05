@@ -46,10 +46,6 @@ urlpatterns = [
     # authorizing for users
     # path("users/", include("django.contrib.auth.urls")),
     path("users/", include("users.urls")),
-    # ex: /collection
-    path('collection/', views.CollectionDetailView.as_view(), name='collection_detail'),
-    # ex: /collection/edit
-    path('collection/edit', views.CollectionEditView.as_view(), name = 'collection_edit'),
 
     # для использования штатных представлений джанго, импортируем эти пути в корневое пространство имён
     path('password-reset/', PasswordResetView.as_view(template_name='users/reset_password.html'),name='password_reset'),

@@ -2,7 +2,7 @@ import logging
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from .models import Pokemon, Ability, Collection, TypePokemon, SpeciesPokemon
+from .models import Pokemon, Ability, TypePokemon, SpeciesPokemon
 from django.views import generic
 from django.views.generic.edit import UpdateView
 from django.db.models import Q
@@ -100,26 +100,3 @@ class TypePokemonDetailView(generic.DetailView):
                                context['object'].pokemon_set.all()]
         context['len_pokemons'] = str(len(context['pokemons']))
         return context
-
-
-# https://docs.djangoproject.com/en/4.1/topics/forms/#using-a-form-in-a-view
-# https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
-
-class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Collection
-
-    def get_object(self, queryset=None):
-        return None
-
-
-# https://docs.djangoproject.com/en/4.1/topics/forms/modelforms/#django.forms.ModelForm
-# https://docs.djangoproject.com/en/4.1/topics/forms/
-# https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
-class CollectionEditView(UpdateView):
-    model = Collection
-    fields = ['name', 'pokemons']
-
-    # https://stackoverflow.com/questions/7778143/whats-easiest-way-to-use-filter-horizontal-outside-of-the-admin-in-django
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Collection, user_id=self.request.user.id)

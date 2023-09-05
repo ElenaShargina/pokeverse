@@ -1,10 +1,12 @@
 from django.shortcuts import redirect
 from django.views import generic
-from .models import CustomUser
+from .models import CustomUser, Collection
 from .forms import CustomUserCreationForm, CustomUserChangePasswordForm, CustomUserResetPasswordForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, update_session_auth_hash
+from django.views.generic.edit import UpdateView
+from django.shortcuts import get_object_or_404
 
 
 class CustomUserProfileView(LoginRequiredMixin, generic.TemplateView):
@@ -57,3 +59,24 @@ class CustomUserChangePasswordView(generic.FormView):
         update_session_auth_hash(self.request, form.user)
         return super(CustomUserChangePasswordView, self).form_valid(form)
 
+# https://docs.djangoproject.com/en/4.1/topics/forms/#using-a-form-in-a-view
+# https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
+
+class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Collection
+
+    def get_object(self, queryset=None):
+        return None
+
+
+# https://docs.djangoproject.com/en/4.1/topics/forms/modelforms/#django.forms.ModelForm
+# https://docs.djangoproject.com/en/4.1/topics/forms/
+# https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
+class CollectionEditView(UpdateView):
+    model = Collection
+    fields = ['name', 'pokemons']
+
+    # https://stackoverflow.com/questions/7778143/whats-easiest-way-to-use-filter-horizontal-outside-of-the-admin-in-django
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Collection, user_id=self.request.user.id)
