@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views import generic
 from .models import CustomUser, Collection
@@ -62,21 +63,41 @@ class CustomUserChangePasswordView(generic.FormView):
 class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
     model = Collection
 
-    # def get_queryset(self):
-    #     print(self.request.user.id)
-    #     return Collection.objects.get(user_id=self.request.user.id)
-
     def get_object(self, queryset=None):
         return Collection.objects.get(user_id=self.request.user.id)
 
-# https://docs.djangoproject.com/en/4.1/topics/forms/modelforms/#django.forms.ModelForm
-# https://docs.djangoproject.com/en/4.1/topics/forms/
-# https://docs.djangoproject.com/en/4.1/topics/class-based-views/generic-editing/
-# class CollectionEditView(UpdateView):
-#     model = Collection
-#     fields = ['name', 'pokemons']
-#
-#     # https://stackoverflow.com/questions/7778143/whats-easiest-way-to-use-filter-horizontal-outside-of-the-admin-in-django
-#
-#     def get_object(self, queryset=None):
-#         return get_object_or_404(Collection, user_id=self.request.user.id)
+    def add_pokemon_to_collection(self,pokemon_id):
+        self.request.user.add_pokemon(pokemon_id)
+    def remove_pokemon_from_collection(self,pokemon_id):
+        self.request.user.remove_pokemon(pokemon_id)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['object_list'] = context['object'].pokemons.all()
+        # накладываем информацию про его коллекцию, все покемоны из списка  уже есть в коллекции пользователя
+        context['in_collection'] = {key:True for key in [p.id for p in context['object_list']] }
+        return context
+
+    def post(self, request):
+        if self.request.is_ajax():
+            print('IS AJAX')
+            pokemon_id = self.request.POST.get('pokemon_id')
+            if pokemon_id:
+                if self.request.resolver_match.view_name == 'users:remove_pokemon':
+                    self.remove_pokemon_from_collection(pokemon_id)
+                elif self.request.resolver_match.view_name == 'users:add_pokemon':
+                    self.add_pokemon_to_collection(pokemon_id)
+                return JsonResponse({'success':True})
+            else:
+                return JsonResponse({})
+        else:
+            print('NO AJAX')
+            # liked_post_id = self.request.GET.get('likepost', None)
+            # disliked_post_id = self.request.GET.get('dislikepost', None)
+            #
+            # if liked_post_id:
+            #     return self.like_post_no_ajax(liked_post_id)
+            # elif disliked_post_id:
+            #     return self.dislike_post_no_ajax(disliked_post_id)
+            # else:
+            #     return super(ListView, self).get(request)
+            return super(generic.DetailView, self).get(request)

@@ -15,5 +15,7 @@ urlpatterns = [
 
     # ex: /collection
     path('collection/', views.CollectionDetailView.as_view(), name='collection_detail'),
+    path('collection/add_pokemon', views.CollectionDetailView.as_view(), name='add_pokemon'),
+    path('collection/remove_pokemon', views.CollectionDetailView.as_view(), name='remove_pokemon'),
 
 ]

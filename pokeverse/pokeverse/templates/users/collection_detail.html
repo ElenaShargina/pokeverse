@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
-{% block title %}Моя коллекция покемонов{% endblock %}
+{% load static %}
 {% block header %}Моя коллекция покемонов{% endblock %}
-{% block content %}
 
-<div class="text_content">
-{% for p in object.pokemons.all %}
-    {% include 'base_pokemon_square.html' %}
+{% block title %}Моя коллекция покемонов {% endblock %}
+
+{% block content%}
+
+{% for p in object_list %}
+{% include 'base_pokemon_square.html' %}
+
 {% empty %}
-    No pokemons yet.
-    {% endfor %}
-<div class="clear"></div>
-</div>
+    No pokemons yet >.<
+{% endfor %}
+
 {% endblock %}

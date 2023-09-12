@@ -1,11 +1,11 @@
 {% load lookup %}
               <div class="icon-description">
                 <ul>
-                    {% if not in_collection|lookup:p.id %}
-                  <li><a href="#">Добавить в коллекцию</a></li>
-                    {% endif %}
-                    {% if in_collection|lookup:p.id %}
-                    <li><a href="#">Удалить из коллекции</a></li>
-                    {% endif %}
+                  <li {% if in_collection|lookup:p.id %} style="display:none;"{% endif %} id="add_pokemon_{{p.id}}">
+                      <a href="#" class="add_pokemon" data-pid="{{p.id}}">Добавить в коллекцию</a>
+                  </li>
+                    <li {% if not in_collection|lookup:p.id %} style="display:none;" {% endif %} id="remove_pokemon_{{p.id}}">
+                        <a href="#"  class="remove_pokemon" data-pid="{{p.id}}">Удалить из коллекции</a>
+                    </li>
                 </ul>
               </div>

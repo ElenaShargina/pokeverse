@@ -46,7 +46,6 @@ class PokemonIndexView(generic.ListView):
             for p in context['object_list']:
                 if p in user_collection:
                     context['in_collection'][p.id] = True
-        print(context)
         return context
 
 
