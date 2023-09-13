@@ -12,6 +12,9 @@ import logging
 # TODO добавить slug к покемонам и способностям
 
 class Ability(models.Model):
+    """
+    Способности покемонов. Одной способностью могут владеть несколько покемонов.
+    """
     pokeapi_id = models.IntegerField()
     name = models.CharField(max_length=100)
     effect_entry = models.CharField(max_length=500)

@@ -20,9 +20,11 @@ from pokemon import views
 from django.conf.urls.static import static
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView, PasswordResetDoneView
 
-
 urlpatterns = [
+    # admin section
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
+
     # index page
     path('', views.MainIndex.as_view(), name='main_index'),
     # ex: /search/

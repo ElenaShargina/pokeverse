@@ -12,6 +12,9 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def active(context, pattern_or_urlname, is_pattern=True):
+    """
+    вставляет в верхнее меню пометку о текущем активном пункте
+    """
     path = context['request'].path
     try:
         reversed = reverse(pattern_or_urlname)

@@ -37,6 +37,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pokemon.apps.PokemonConfig',
     'users.apps.UsersConfig',
-    'django.forms'
+    'django.forms',
+    'django.contrib.admindocs',
 ]
 
 MIDDLEWARE = [

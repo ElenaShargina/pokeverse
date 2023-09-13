@@ -27,9 +27,12 @@ class Collection(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    pokemons = models.ManyToManyField(Pokemon)
+    pokemons = models.ManyToManyField(Pokemon, related_name='pokemons')
     name = models.CharField(max_length=100, default='Моя коллекция')
 
+    @property
+    def number_of_pokemons(self):
+        return self.pokemons.count()
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('users:collection_detail')
