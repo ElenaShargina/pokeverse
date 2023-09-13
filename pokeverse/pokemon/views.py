@@ -82,7 +82,7 @@ class AbilityDetailView(generic.DetailView):
             'Полное описание': context['object'].effect_entry,
         }
         context['pokemons'] = [{'id': x.id, 'name': x.name, 'image_big': x.image_big} for x in
-                               context['object'].pokemon_set.all()]
+                               context['object'].pokemons.all()]
         return context
 
 class SpeciesPokemonIndexView(generic.ListView):
@@ -110,6 +110,6 @@ class TypePokemonDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pokemons'] = [{'id': x.id, 'name': x.name, 'image_big': x.image_big} for x in
-                               context['object'].pokemon_set.all()]
+                               context['object'].pokemons.all()]
         context['len_pokemons'] = str(len(context['pokemons']))
         return context

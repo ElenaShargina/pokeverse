@@ -21,17 +21,25 @@ class Ability(models.Model):
         return str.capitalize(self.name) + f' ({self.pokeapi_id})'
 
     @property
-    def number_of_users(self):
-        return len(self.pokemon_set.all())
+    def number_of_pokemons(self):
+        return self.pokemons.count()
 
 
 class TypePokemon(models.Model):
     name = models.CharField(primary_key=True, max_length=100, null=False)
     image = models.ImageField(upload_to='type_image/', null=True, blank=True)
 
+    @property
+    def number_of_pokemons(self):
+        return self.pokemons.count()
+
 class SpeciesPokemon(models.Model):
     name = models.CharField(primary_key=True, max_length=100, null=False)
     text = models.CharField(max_length=2000)
+
+    @property
+    def number_of_pokemons(self):
+        return len(self.pokemons.all())
 
 class Pokemon(models.Model):
     from django.core.validators import MinValueValidator
@@ -41,8 +49,8 @@ class Pokemon(models.Model):
     base_experience = models.IntegerField(default=0, null=True)
     height = models.IntegerField(default=0, null=True)
     weight = models.IntegerField(default=0, validators=[MinValueValidator(1)], null=True)
-    abilities = models.ManyToManyField(Ability)
-    types = models.ManyToManyField(TypePokemon)
+    abilities = models.ManyToManyField(Ability, related_name='pokemons')
+    types = models.ManyToManyField(TypePokemon, related_name='pokemons')
     species = models.ForeignKey(SpeciesPokemon, models.SET_NULL, blank=True, null=True, related_name='pokemons')
 
     image_big = models.ImageField(upload_to='pokemon_images_big/', null=True, blank=True)
