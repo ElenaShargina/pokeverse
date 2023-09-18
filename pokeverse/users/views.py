@@ -70,6 +70,7 @@ class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
     def remove_pokemon_from_collection(self,pokemon_id):
         self.request.user.remove_pokemon(pokemon_id)
     def get_context_data(self, *, object_list=None, **kwargs):
+        print('get_context_data')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['object_list'] = context['object'].pokemons.all()
         # накладываем информацию про его коллекцию, все покемоны из списка  уже есть в коллекции пользователя
@@ -79,6 +80,7 @@ class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
     def post(self, request):
         if self.request.is_ajax():
             pokemon_id = self.request.POST.get('pokemon_id')
+            print('post')
             if pokemon_id:
                 if self.request.resolver_match.view_name == 'users:remove_pokemon':
                     self.remove_pokemon_from_collection(pokemon_id)
