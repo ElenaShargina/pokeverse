@@ -9,7 +9,7 @@
 <ul>
   {% for p in object_list.pokemon_list %}
     <li>
-      <a href="{% url 'pokemons_detail' p.id %}">{{ p.name }}</a>
+      <a href="{% url 'pokemons_detail' p.id %}">{{ p.name|title }}</a>
     </li>
     {% empty %}
     Покемонов с этим именем не найдено >.<
@@ -20,7 +20,7 @@
 <ul>
   {% for a in object_list.ability_list %}
     <li>
-      <a href="{% url 'abilities_detail' a.id %}">{{ a.name }}</a>
+      <a href="{% url 'abilities_detail' a.id %}">{{ a.name|title }}</a>
     </li>
   {% empty %}
   Способностей с этим именем не найдено >.<
@@ -31,7 +31,7 @@
 <ul>
   {% for a in object_list.types_list %}
     <li>
-      <a href="{% url 'types_detail' a.name %}">{{ a.name }}</a>
+      <a href="{% url 'types_detail' a.name %}">{{ a.name|title }}</a>
     </li>
   {% empty %}
   Типов покемонов с этим именем не найдено >.<

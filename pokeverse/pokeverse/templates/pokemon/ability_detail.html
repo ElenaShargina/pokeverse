@@ -11,9 +11,9 @@
 <div class="clear"></div>
 <h2 class="page-title">Связанные покемоны:</h2>
 <hr class="pagination-break" />
-<div class="icon-list clearfix">
-    {% for p in pokemons %}
+
+    {% for p in object_list %}
     {% include 'base_pokemon_square.html' %}
     {% endfor %}
-</div>
+
 {% endblock %}

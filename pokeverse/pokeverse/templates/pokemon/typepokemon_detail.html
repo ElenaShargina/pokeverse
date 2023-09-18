@@ -4,7 +4,7 @@
 {% block back_to_list %}<a href="{% url 'types_index' %}">К списку типов</a>{% endblock %}
 
 {% block content %}
-    {% for p in pokemons %}
+    {% for p in object_list %}
     {% include 'base_pokemon_square.html' %}
     {% endfor %}
 {% endblock %}
