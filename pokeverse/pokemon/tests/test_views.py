@@ -48,7 +48,7 @@ class PokemonViewTest(TestCase):
 
     def test_detail_species_related(self):
         resp = self.client.get(reverse('pokemons_detail',args=[1]))
-        self.assertEqual(len(resp.context['pokemons']),self.num_of_pokemons_with_species_1-1)
+        self.assertEqual(len(resp.context['object_list']),self.num_of_pokemons_with_species_1-1)
 
     def test_detail_no_species_related(self):
         resp = self.client.get(reverse('pokemons_detail', args=[self.number_of_pokemons-2]))
@@ -117,13 +117,13 @@ class AbilityViewTest(TestCase):
 
     def test_view_show_ability_with_pokemons(self):
         resp = self.client.get(reverse('abilities_detail',args=[self.ability_0_id]))
-        self.assertEqual(self.num_of_pokemons_with_ability_0, len(resp.context['pokemons']))
+        self.assertEqual(self.num_of_pokemons_with_ability_0, len(resp.context['object_list']))
         resp = self.client.get(reverse('abilities_detail', args=[self.ability_1_id]))
-        self.assertEqual(self.num_of_pokemons_with_ability_1, len(resp.context['pokemons']))
+        self.assertEqual(self.num_of_pokemons_with_ability_1, len(resp.context['object_list']))
 
     def test_view_show_ability_with_no_pokemons(self):
         resp = self.client.get(reverse('abilities_detail', args=[self.ability_2_id]))
-        self.assertEqual(0, len(resp.context['pokemons']))
+        self.assertEqual(0, len(resp.context['object_list']))
 
 class TypePokemonViewTest(TestCase):
     number_of_types = 20
@@ -182,11 +182,11 @@ class TypePokemonViewTest(TestCase):
 
     def test_view_show_type_with_pokemons(self):
         resp = self.client.get(reverse('types_detail', args=[self.type_0_name]))
-        self.assertEqual(self.num_of_pokemons_with_type_0, len(resp.context['pokemons']))
+        self.assertEqual(self.num_of_pokemons_with_type_0, len(resp.context['object_list']))
         resp = self.client.get(reverse('types_detail', args=[self.type_1_name]))
-        self.assertEqual(self.num_of_pokemons_with_type_1, len(resp.context['pokemons']))
+        self.assertEqual(self.num_of_pokemons_with_type_1, len(resp.context['object_list']))
 
 
     def test_view_show_type_with_no_pokemons(self):
         resp = self.client.get(reverse('types_detail', args=[self.type_2_name]))
-        self.assertEqual(0, len(resp.context['pokemons']))
+        self.assertEqual(0, len(resp.context['object_list']))

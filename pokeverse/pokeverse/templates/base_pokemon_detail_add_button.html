@@ -1,0 +1,7 @@
+{% load lookup %}
+<div class="blog-more add_button" {% if in_collection|lookup:p.id %} style="display:none;"{% endif %} id="add_pokemon_{{p.id}}">
+    <a class="round add_pokemon" href="#" data-pid="{{p.id}}"><span>Добавить »</span></a>
+</div>
+<div class="blog-more add_button" {% if not in_collection|lookup:p.id %} style="display:none;"{% endif %} id="remove_pokemon_{{p.id}}">
+    <a class="round remove_pokemon" href="#" data-pid="{{p.id}}"><span>Удалить »</span></a>
+</div>

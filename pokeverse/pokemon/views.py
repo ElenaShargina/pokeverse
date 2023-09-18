@@ -70,8 +70,9 @@ class PokemonDetailView(generic.DetailView, CollectionInfoMixin):
             'Базовый опыт': context['object'].base_experience,
         }
         if context['object'].species!=None:
-            context['object_list'] = context['object'].species.pokemons.exclude(pokeapi_id=context['object'].pokeapi_id)
+            context['object_list'] = context['object'].species.pokemons.all()
             self.add_collection_info(context)
+            context['object_list'] = context['object_list'].exclude(pokeapi_id=context['object'].pokeapi_id)
         return context
 
 

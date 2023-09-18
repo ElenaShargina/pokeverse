@@ -6,7 +6,9 @@
 <div class="single-description">
 <div class="single-image-box">
   <div class="single-image-left"></div>
-  <div class="single-image"> <a href="#"> {% if object.image_big %}<img src="{{object.image_big.url}}" alt="" height="200" />{% endif %} </a> </div>
+  <div class="single-image">
+      <a href="#"> {% if object.image_big %}<img src="{{object.image_big.url}}" alt="" height="200" />{% endif %} </a>
+  </div>
   <div class="single-image-right"></div>
 </div>
 <div class="single-write">
@@ -21,6 +23,9 @@
         </tr>
         {% endfor %}
     </table>
+    {% if user.is_authenticated %}
+    {% include 'base_pokemon_detail_add_button.html' with p=object%}
+    {% endif %}
     <!-- СПОСОБНОСТИ -->
     {% if object.abilities.all %}
         <br />
