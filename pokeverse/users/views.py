@@ -79,7 +79,6 @@ class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
 
     def post(self, request):
         if self.request.is_ajax():
-            print('IS AJAX')
             pokemon_id = self.request.POST.get('pokemon_id')
             if pokemon_id:
                 if self.request.resolver_match.view_name == 'users:remove_pokemon':
@@ -89,15 +88,3 @@ class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
                 return JsonResponse({'success':True})
             else:
                 return JsonResponse({})
-        else:
-            print('NO AJAX')
-            # liked_post_id = self.request.GET.get('likepost', None)
-            # disliked_post_id = self.request.GET.get('dislikepost', None)
-            #
-            # if liked_post_id:
-            #     return self.like_post_no_ajax(liked_post_id)
-            # elif disliked_post_id:
-            #     return self.dislike_post_no_ajax(disliked_post_id)
-            # else:
-            #     return super(ListView, self).get(request)
-            return super(generic.DetailView, self).get(request)

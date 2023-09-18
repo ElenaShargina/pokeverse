@@ -22,6 +22,10 @@ class CustomUser(AbstractUser):
         my_collection = self.get_or_create_collection()[0]
         my_collection.remove_pokemon(p)
 
+    def get_pokemons(self):
+        my_collection = self.get_or_create_collection()[0]
+        return [p for p in my_collection.pokemons.all()]
+
 class Collection(models.Model):
     user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,

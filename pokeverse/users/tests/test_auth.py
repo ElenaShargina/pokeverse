@@ -30,28 +30,9 @@ class CustomUserTest(TestCase):
             for obj in serializers.deserialize("xml", file_xml):
                 obj.save()
 
-        # tus = CustomUser.objects.all()
-        # print(tus)
-        # file_xml = open(
-        #     os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sample/users.xml' ), 'w')
-        # XMLSerializer = serializers.get_serializer("xml")
-        # xml_serializer = XMLSerializer()
-        # xml_serializer.serialize(queryset=tus, stream = file_xml)
-        # file_xml.close()
-
         # загружаем тестовые данные из подготовленных файлов с сериализованными данными
         for f in ['speciespokemon.xml', 'typepokemon.xml', 'ability.xml', 'pokemon.xml', 'users.xml']:
             import_from_xml(f)
-
-        # pokemons = Pokemon.objects.filter(types='grass')
-        # print(len(pokemons))
-        # pokemons = Pokemon.objects.filter(abilities='295')
-        # print(pokemons)
-        # pokemons = Pokemon.objects.filter(species='bulbasaur')
-        # print(pokemons)
-
-        # p = Pokemon.objects.get_or_create(name='Pikachu')
-        # print(tu.groups.values_list('name', flat=True))
 
 
     def testTopMenuAuthorized(self):
@@ -198,7 +179,7 @@ class CustomUserTest(TestCase):
         # логинимся как пользователь
         login = self.login_as_test_user('test_user_1')
         resp = self.client.get(reverse('users:collection_detail'))
-        self.assertEqual(0, len(resp.context['object'].pokemons.values_list()))
+        self.assertEqual(0, len(resp.context['object_list'].values_list()))
 
     def testCollectionNotEmpty(self):
         """
@@ -214,4 +195,70 @@ class CustomUserTest(TestCase):
         login = self.login_as_test_user('test_user_2')
         resp = self.client.get(reverse('users:collection_detail'))
         self.assertEqual(3, len(resp.context['object'].pokemons.values_list()))
-        self.assertEqual(list(resp.context['object'].pokemons.values_list("name",flat=True).order_by("name")), pokemon_names)
+        self.assertEqual(list(resp.context['object_list'].values_list("name",flat=True).order_by("name")), pokemon_names)
+
+    def testAddPokemonToCollection(self):
+        """
+    проверка, что пользователь может добавить покемона в коллекцию
+        """
+        def add_pokemons_via_post(names):
+            pokemon_ids = [Pokemon.objects.filter(name=name).first().id for name in names]
+            for pokemon_id in pokemon_ids:
+                resp = self.client.post(reverse('users:add_pokemon'),
+                                    {'pokemon_id': pokemon_id, },
+                                    # content_type='application/json',
+                                    **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+
+        # логинимся как пользователь
+        login = self.login_as_test_user('test_user_2')
+        resp = self.client.get(reverse('users:collection_detail'))
+        # убеждаемся, что коллекция сначала пуста
+        self.assertEqual(len(resp.context['object_list']),0)
+        # пробуем добавить одного покемона
+        p_names = ['pikachu']
+        add_pokemons_via_post(p_names)
+        # убеждаемся, что покемон появился в коллекции пользователя в БД
+        self.assertEqual([p.name for p in resp.wsgi_request.user.get_pokemons()], p_names)
+        # убеждаемся, что покемон показывается на странице коллекции пользователя
+        resp = self.client.get(reverse('users:collection_detail'))
+        self.assertEqual(list(resp.context['object_list'].values_list("name", flat=True)), p_names)
+
+        # пробуем добавить несколько покемонов
+        p_names = ['bulbasaur','venusaur', 'pikachu']
+        add_pokemons_via_post(p_names)
+        # убеждаемся, что покемон появился в коллекции пользователя в БД
+        self.assertSequenceEqual(p_names, [p.name for p in resp.wsgi_request.user.get_pokemons()])
+        # убеждаемся, что покемон показывается на странице коллекции пользователя
+        resp = self.client.get(reverse('users:collection_detail'))
+        self.assertSequenceEqual(p_names, list(resp.context['object_list'].values_list("name", flat=True)))
+
+    def testRemovePokemonFromCollection(self):
+        """
+    проверка хода удаления покемона из коллекции пользователя
+        """
+        def remove_pokemons_via_post(names):
+            pokemon_ids = [Pokemon.objects.filter(name=name).first().id for name in names]
+            for pokemon_id in pokemon_ids:
+                resp = self.client.post(reverse('users:remove_pokemon'),
+                                    {'pokemon_id': pokemon_id, },
+                                    # content_type='application/json',
+                                    **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+
+        # добавляем пользователю test_user_2 в коллекцию 3 покемонов
+        tu = CustomUser.objects.get(username='test_user_2')
+        pokemon_names = sorted(['bulbasaur', 'venusaur', 'oddish', 'caterpie', 'weedle', 'kakuna', 'beedrill'])
+        for p in pokemon_names:
+            tu.add_pokemon(Pokemon.objects.get(name=p))
+        # удаляем покемона
+        login = self.login_as_test_user('test_user_2')
+        remove_pokemons_via_post(['bulbasaur',])
+        # убеждаемся, что он удален
+        resp = self.client.get(reverse('users:collection_detail'))
+        pokemon_names.remove('bulbasaur')
+        self.assertSequenceEqual(pokemon_names, list(resp.context['object_list'].values_list("name", flat=True).order_by('name')) )
+        # удаляем несколько покемонов
+        remove_pokemons_via_post(['weedle', 'kakuna', 'beedrill'])
+        # убеждаемся, что они удалены
+        resp = self.client.get(reverse('users:collection_detail'))
+        list(map(lambda x: pokemon_names.remove(x), ['weedle', 'kakuna', 'beedrill'] ))
+        self.assertSequenceEqual(pokemon_names, list(resp.context['object_list'].values_list("name", flat=True).order_by('name')))

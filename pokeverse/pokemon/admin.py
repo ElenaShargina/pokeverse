@@ -104,6 +104,6 @@ class DummyModelAdmin(admin.ModelAdmin):
     def importView(self, request):
         context = dict(
             self.admin_site.each_context(request),  # Include common variables for rendering the admin template.
-            something="test",
+            something="Test page for import.",
         )
         return TemplateResponse(request, "admin/import.html", context)
