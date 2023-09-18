@@ -1,10 +1,9 @@
 function add_ajax_hrefs(){
-    <!-- в случае отключенного javascript заменяем ссылки для кнопок like/dislike с явным указанием параметров  -->
         document.querySelectorAll('.add_pokemon').forEach(item => {
                 item.setAttribute('href','#');
             })
     }
-document.addEventListener("DOMContentLoaded", add_ajax_hrefs)
+<!-- document.addEventListener("DOMContentLoaded", add_ajax_hrefs) -->
 
 $('.add_pokemon').click(function(event){
     event.preventDefault();
