@@ -15,7 +15,6 @@ class CustomUserProfileView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # current_user = CustomUser.objects.get_by_natural_key(self.request.user)
         context['current_user'] = {'username': self.request.user.username, 'email': self.request.user.email}
         return context
 
@@ -74,7 +73,7 @@ class CollectionDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['object_list'] = context['object'].pokemons.all()
         # накладываем информацию про его коллекцию, все покемоны из списка  уже есть в коллекции пользователя
-        context['in_collection'] = {key:True for key in [p.id for p in context['object_list']] }
+        context['in_collection'] = {key:True for key in [p.id for p in context['object_list']]}
         return context
 
     def post(self, request):
