@@ -20,7 +20,6 @@ $('.add_pokemon').click(function(event){
         {
         $('#add_pokemon_'+ pid).hide();
         $('#remove_pokemon_' + pid).show();
-
         }
      })
      return false;
@@ -41,7 +40,7 @@ $('.remove_pokemon').click(function(event){
         {
         $('#add_pokemon_'+ pid).show();
         $('#remove_pokemon_' + pid).hide();
-
+        $('#pokemon-item-' + pid).hide();
         }
      })
      return false;

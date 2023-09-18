@@ -1,5 +1,5 @@
 {% load static %}
-<div class="icon-item">
+<div class="icon-item" id="pokemon-item-{{p.id}}">
               <a href="{% url 'pokemons_detail' p.id %}"><h3 class="icon-title">{{p.name}}</h3></a>
               <!-- <img class="badge" src="{% static 'images/badge-new.png' %}" alt="" /> -->
               <div class="icon-top"></div>
